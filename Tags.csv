@@ -1,0 +1,21 @@
+﻿Port Pin,IO Type,Name,Description
+PORTB0,DI,BTN_1,Left Button
+PORTB1,DI,BTN_2,Right Button
+PORTB2,empty,,
+PORTB3,empty,,
+PORTB4,empty,,
+PORTB5,empty,,
+PORTC0,empty,,
+PORTC1,empty,,
+PORTC2,empty,,
+PORTC3,empty,,
+PORTC4,empty,,
+PORTC5,empty,,
+PORTD0,DO,LED_1,Output
+PORTD1,empty,,
+PORTD2,empty,,
+PORTD3,empty,,
+PORTD4,empty,,
+PORTD5,empty,,
+PORTD6,empty,,
+PORTD7,empty,,
