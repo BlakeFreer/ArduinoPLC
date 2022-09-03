@@ -1,6 +1,8 @@
 # ArduinoPLC Design Guide
 Blake Freer, August 2022
 
+**Note:** This project is a work in progress and is currently in the very early stages of development.
+
 ## Purpose
 I was first exposed to the world of PLCs during my 4-month co-op at Langtree Controls in the summer of 2022. Langtree provides engineering services to the various chemical refineries and manufacturing facilities in Sarnia, Ontario. During my time as a co-op student, I created a SCADA system using Wonderware, but felt that I didn't understand how the program interfaces with the PLCs and field devices.
 
