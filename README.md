@@ -22,7 +22,7 @@ The pin assignments will be done manually to ensure that the designer knows wher
 ### Tags
 Due to storage and memory constraints (32KB ROM and 2KB RAM), only a small amount of tag data will be stored on the PLC, and as much will be stored in ROM as possible. I want to use preprocessor directives, like ```#define```, as much as possible to reduce the code size and memory usage. The PLC will not store any tag data in RAM besides the tag value. The tag address, pin, and type will be hardcoded by the preprocessor. Therefore, the PLC will not know where any specific tag is, only how to collect or write the data.
 
-I will use a 16 bit / 2 byte width for each tag value, regardless of whether the tag is a one bit boolean or 16 bit integer. This will provide more reliable structure to the memory, rather than needing to track variables of different sizes.
+I will use a 16 bit / 2 byte width for each tag value, regardless of whether the tag is a one bit boolean or 16 bit integer. Values will be stored as 16 bit unsigned integers, again regardless of the tag datatype. This will provide more reliable structure to the memory, rather than needing to track variables of different sizes.
 
 Every tag can exist in AUTO or MANUAL mode. AUTO is the default state, where inputs are read from field devices and outputs are calculated from these inputs. If a tag is switched to MANUAL mode by the operator, then inputs and outputs will be held at the most recent operator setting. The AUTO/MAN state will be stored in an individual bit on the PLC.
 
@@ -67,12 +67,12 @@ Bit 7 (MSB) of the opcode will be used to indicate whether the opcode is a write
 | Opcode | Operation (Read) || Opcode | Operation (Write)|
 |:---|:---|-|:---|:---|
 |```0x00```|Reserved (Do not use)||```0x80```|Reserved (Do not use)|
-|```0x01```|Return value||```0x81```|Write value|
+|```0x01```|Return value||```0x81```|Write value to tag|
 |```0x02```|Return AUTO bit||```0x82```|Write AUTO bit|
-|          |               ||```0x83```|Toggle Value|
-|          |               ||```0x84```|Increment Value|
-|          |               ||```0x85```|Multiply Value|
-|          |               ||```0x86```|Divide Value|
+|          |               ||```0x83```|Toggle value (discrete only)|
+|          |               ||```0x84```|Increment tag by value|
+|          |               ||```0x85```|Multiply tag by value|
+|          |               ||```0x86```|Divide tag by value|
 
 ### Examples:
 HMI Command: ```0x01 0x15```\
@@ -83,4 +83,17 @@ PLC Action: Set memory address ```0x42``` mode to 1=AUTO, respond with ```0x00 0
 
 HMI Command: ```0x02 0x07 0xA3 0X12```\
 PLC Action: Responds with AUTO but state for memory address ```0x07```, followed by **Undesired behaviour**. Opcode ```0x02``` is a "Read" code and does not expect a 3rd or 4th byte. The ```0xA3 0x12``` bytes would be interpreted as there own command, rather than as 16 bit literal value intended for the previous command.
+
+## Tag Database
+### Tag Types
+Stored in one byte. Bits 7-4 (high nibble) hold the IO type while bits 3-0 (low nibble) hold the datatype.
+| High Nibble | IO Type | Datatype
+|:---:|:---|:--|
+|0|Reserved (do not use)|-|
+|1|Digital Input|Discrete ```bool```|
+|2|Digital Output|Discrete ```bool```
+|3|Analog Input|Integer ```uint16_t```|
+|4|Analog Output|Integer ```uint16_t```|
+|5|Soft / Internal|Discrete ```bool```|
+|6|Soft / Internal|Integer ```uint16_t```|
 
