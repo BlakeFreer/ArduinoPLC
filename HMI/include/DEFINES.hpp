@@ -6,4 +6,6 @@
 #ifndef DEFINES_HPP
 #define DEFINES_HPP
 
+#define TAG_NAME_LENGTH 32
+
 #endif
