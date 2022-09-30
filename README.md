@@ -88,7 +88,7 @@ PLC Action: Responds with AUTO but state for memory address ```0x07```, followed
 
 ## Tag Database
 ### Tag Types
-Stored in one byte. Bits 7-4 (high nibble) hold the IO type while bits 3-0 (low nibble) hold the datatype.
+Stored in one byte. ~~Bits 7-4 (high nibble) hold the IO type while bits 3-0 (low nibble) hold the datatype.~~
 | High Nibble | IO Type | Datatype
 |:---:|:---|:--|
 |0|Reserved (do not use)|-|
